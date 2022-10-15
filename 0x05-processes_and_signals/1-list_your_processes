@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 #!/usr/bin/env bash
 # Bash script that displays a list of currently running processes
 ps -auxf
+=======
+#!/usr/bin/env bash
+# Bash script that displays a list of currently running processes
+ps -auxf
+>>>>>>> 3a5b88cda6ba5147df558cb142aa7a325dfd810c
