@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Write a Bash script that creates the file /var/run/myscript.pid containing its PID
+file=/var/run/myscript.pid
+trap 'echo I hate the kill command; rm $file; exit' SIGTERM
+trap 'echo Y U no love me?!' SIGINT
+trap 'rm $file; exit' SIGQUIT
+echo $$ > "$file"
+while true
+do
+	echo To infinity and beyond
+	sleep 2
+done
