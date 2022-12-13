@@ -1,27 +1,14 @@
 #!/usr/bin/env bash
-# Configure your Nginx server so that /redirect_me is redirecting to another page
-apt-get update
-apt-get install -y nginx
-mkdir /etc/nginx/html
-touch /etc/nginx/html/index.html
-echo "Holberton School" > /etc/nginx/html/index.html
-touch /etc/nginx/html/404.html
-echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
-printf %s "server {
-     listen      80 default_server;
-     listen      [::]:80 default_server;
-     root        /etc/nginx/html;
-     index       index.html;
-	 
-	 location /redirect_me {
-		 return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-	 }
-	 error_page 404 /404.html;
-     location /404 {
-		 root /etc/nginx/html;
-		 internal;
-	 }
-}
-" > /etc/nginx/sites-available/default
+# This script configures the nginx server to have a custom 404 page that
+# contains the string Ceci n'est pas une page.
 
-service nginx restart
+sudo apt update
+sudo apt install nginx -y
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw enable
+echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html > /dev/null
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+sed -i '/listen 80 default_server/a error_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n internal;}' /etc/nginx/sites-available/default
+sudo service nginx restart
