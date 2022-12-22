@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Script changes config nginx
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx restart
+rm /run/nginx.pid
